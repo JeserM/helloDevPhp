@@ -1,0 +1,32 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/dotnet-mssql
+{
+  "name": "Dev phpimw",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "phpimw",
+  // "workspaceFolder": "/workspaces",
+  //workspaceFolder es el directorio de trabajo en el contenedor
+  "workspaceFolder": "/var/www/html",
+  // Sincroniza el directorio del proyecto con /var/www/html
+  "mounts": [
+    // "source=${localWorkspaceFolder}/src,target=/var/www/html,type=bind"
+    "source=${localWorkspaceFolder},target=/var/www/html,type=bind"
+  ],
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug",
+        "ms-vscode-remote.remote-containers",
+        "zhuangtongfa.material-theme",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
+      ]
+    }
+  }
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // "features": {},
+  // Configure tool-specific properties.
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
+}
