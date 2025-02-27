@@ -10,7 +10,8 @@ Devcontainer para PHP con Xdebug en Docker con VSCode.
 
 ## Requisitos
 
-> [!WARNING] PENDIENTE DE TEMIRNAR DE DOCUMENTAR BIEN, para explicar como instalar Docker, VSCode, extensiones de VSCode, etc.
+> [!WARNING]
+> PENDIENTE DE TEMIRNAR DE DOCUMENTAR BIEN, para explicar como instalar Docker, VSCode, extensiones de VSCode, etc.
 > EL mapeo de los puertos en el archivo docker-compose.yml y en el archivo devcontainer.json
 > Seguridad y todo eso
 
