@@ -1,19 +1,23 @@
+> [!WARNING]
+> 
+> PENDIENTE DE TERMINAR DE DOCUMENTAR BIEN, para explicar como instalar Docker, VSCode, extensiones de VSCode, etc.
+> EL mapeo de los puertos en el archivo docker-compose.yml y en el archivo devcontainer.json
+> Seguridad y todo eso
+
+
 # PHP Debug con Xdebug en DOCKER con VSCode
 
 Devcontainer para PHP con Xdebug en Docker con VSCode.
-
-<div>
+<html>
+  <div>
   <img class= "img" src="./images/docker.png" width= "6%"/>
   <img class= "img" src="./images/apache2.png" width= "10%"/>
   <img class= "img" src="./images/php.png" width= "6%"/>
 <div/>
+</html>
+
 
 ## Requisitos
-
-> [!WARNING]
-> PENDIENTE DE TEMIRNAR DE DOCUMENTAR BIEN, para explicar como instalar Docker, VSCode, extensiones de VSCode, etc.
-> EL mapeo de los puertos en el archivo docker-compose.yml y en el archivo devcontainer.json
-> Seguridad y todo eso
 
 Abrir puertos y tener en cuenta la seguridad:
 
