@@ -37,7 +37,7 @@ Abrir puertos y tener en cuenta la seguridad:
 
 ### Devcontainer.json
 
-```json
+```
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet-mssql
 {
@@ -143,7 +143,7 @@ xdebug.log=/var/log/apache2/xdebug.log
 
 ### launch.json de VSCode para debug
 
-```json
+```
 {
   // Use IntelliSense para saber los atributos posibles.
   // Mantenga el puntero para ver las descripciones de los existentes atributos.
