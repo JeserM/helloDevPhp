@@ -1,6 +1,6 @@
 <?php
 // echo hello world, mostrar en pantalla del navegador un mensaje
-echo "Hello World!";
+echo "Hello World - AHORA SI QUE SI! \n" . "<br>";
 
 
 // phpinfo();
@@ -16,7 +16,7 @@ echo $c;
 // @b = 3;
 echo $a + $b;
 if ($a > $b) {
-  echo "a es mayor que b";
+  echo "a es mayor que b \n";
 } else {
   echo "a NO es mayor que b";
 }

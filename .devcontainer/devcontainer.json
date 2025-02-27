@@ -20,7 +20,8 @@
         "ms-vscode-remote.remote-containers",
         "zhuangtongfa.material-theme",
         "GitHub.copilot",
-        "GitHub.copilot-chat"
+        "GitHub.copilot-chat",
+        "formulahendry.code-runner"
       ]
     }
   }
