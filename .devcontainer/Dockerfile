@@ -14,7 +14,7 @@ WORKDIR /var/www/html
 #   docker-php-ext-enable xdebug
 
 COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-# COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 # COPY xdebug_test.ini /usr/local/etc/php/conf.d/xdebug_test.ini
 
 EXPOSE 80

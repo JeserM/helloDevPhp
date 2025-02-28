@@ -1,9 +1,9 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet-mssql
 {
-  "name": "Dev phpimw",
+  "name": "Dev php",
   "dockerComposeFile": "docker-compose.yml",
-  "service": "phpimw",
+  "service": "phpdev",
   // "workspaceFolder": "/workspaces",
   //workspaceFolder es el directorio de trabajo en el contenedor
   "workspaceFolder": "/var/www/html",

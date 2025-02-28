@@ -1,13 +1,13 @@
 > [!WARNING]
-> 
+>
 > PENDIENTE DE TERMINAR DE DOCUMENTAR BIEN, para explicar como instalar Docker, VSCode, extensiones de VSCode, etc.
 > EL mapeo de los puertos en el archivo docker-compose.yml y en el archivo devcontainer.json
 > Seguridad y todo eso
 
-
 # PHP Debug con Xdebug en DOCKER con VSCode
 
 Devcontainer para PHP con Xdebug en Docker con VSCode.
+
 <html>
   <div>
   <img class= "img" src="./images/docker.png" width= "6%"/>
@@ -15,7 +15,6 @@ Devcontainer para PHP con Xdebug en Docker con VSCode.
   <img class= "img" src="./images/php.png" width= "6%"/>
 <div/>
 </html>
-
 
 ## Requisitos
 
@@ -35,15 +34,25 @@ Abrir puertos y tener en cuenta la seguridad:
 - '127.0.0.1:9000:9000'
 - '127.0.0.1:9003:9003'
 
+### Comprobar que Xdebug está instalado, los puertos y la IP del cliente
+
+```php
+<?php
+phpinfo();
+?>
+```
+
+![alt text](./images/image.png)
+
 ### Devcontainer.json
 
-```
+```json
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet-mssql
 {
-  "name": "Dev phpimw",
+  "name": "Dev php",
   "dockerComposeFile": "docker-compose.yml",
-  "service": "phpimw",
+  "service": "phpdev",
   // "workspaceFolder": "/workspaces",
   //workspaceFolder es el directorio de trabajo en el contenedor
   "workspaceFolder": "/var/www/html",
@@ -65,6 +74,11 @@ Abrir puertos y tener en cuenta la seguridad:
       ]
     }
   }
+  // Features to add to the dev container. More info: https://containers.dev/features.
+  // "features": {},
+  // Configure tool-specific properties.
+  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // "remoteUser": "root"
 }
 ```
 
@@ -73,29 +87,31 @@ Abrir puertos y tener en cuenta la seguridad:
 ```yml
 version: "3.1"
 services:
-  phpimw:
+  phpdev:
     # extra_hosts:
     #   - "host.docker.internal:host-gateway"
 
     build:
       context: .
       dockerfile: Dockerfile
-    hostname: phpimw
+    hostname: phpdev
 
     expose:
       - "127.0.0.1:80:80"
       - "127.0.0.1:8080:80"
+      # Para Xdebug
       - "127.0.0.1:9000:9000"
       - "127.0.0.1:9003:9003"
 
     ports:
       - "127.0.0.1:80:80"
       - "127.0.0.1:8080:80"
+      # Para Xdebug
       - "127.0.0.1:9000:9000"
       - "127.0.0.1:9003:9003"
 
     volumes:
-      - ../..:/workspaces
+      - ../:/workspaces
 ```
 
 ### Dockerfile
@@ -117,7 +133,7 @@ WORKDIR /var/www/html
 #   docker-php-ext-enable xdebug
 
 COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-# COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 # COPY xdebug_test.ini /usr/local/etc/php/conf.d/xdebug_test.ini
 
 EXPOSE 80
@@ -129,21 +145,24 @@ EXPOSE 9003
 ### Xdebug.ini
 
 ```ini
-# /usr/local/etc/php/conf.d/xdebug.ini o docker-php-ext-xdebug.ini
+# /usr/local/etc/php/conf.d/xdebug.ini o docker-php-ext-xdebug.ini Ademas abrir puertos 9000 y 9003
+# Tambien se debe configurar el archivo launch.json de vscode. Apuntar en hosts a:
+# 127.0.0.1 host.docker.internal
+# 127.0.0.1 gateway.docker.internal
 zend_extension=xdebug.so
-xdebug.mode=debug
+xdebug.mode=debug,develop
 xdebug.idekey=VSCODE
 xdebug.start_with_request=yes
 xdebug.discover_client_host =0
 xdebug.client_port=9003
-xdebug.client_host=127.0.0.1
-; xdebug.client_host=host.docker.internal
+; xdebug.client_host=127.0.0.1
+xdebug.client_host=host.docker.internal
 xdebug.log=/var/log/apache2/xdebug.log
 ```
 
 ### launch.json de VSCode para debug
 
-```
+```json
 {
   // Use IntelliSense para saber los atributos posibles.
   // Mantenga el puntero para ver las descripciones de los existentes atributos.
@@ -154,9 +173,12 @@ xdebug.log=/var/log/apache2/xdebug.log
       "name": "Listen for Xdebug",
       "type": "php",
       "request": "launch",
-      "port": 9000,
+      "port": 9003,
+      // hostname: para indicar que se va a usar el servidor interno de PHP
+      // 0.0.0.0 porque es el valor por defecto. no HACE FALTA
+      "hostname": "0.0.0.0",
       "pathMappings": {
-        "/var/www/html": "${workspaceFolder}"
+        "/var/www/html": "${workspaceRoot}"
       }
     },
     {
@@ -165,7 +187,7 @@ xdebug.log=/var/log/apache2/xdebug.log
       "request": "launch",
       "program": "${file}",
       "cwd": "${fileDirname}",
-      "port": 9003,
+      "port": 0,
       "runtimeArgs": ["-dxdebug.start_with_request=yes"],
       "env": {
         "XDEBUG_MODE": "debug,develop",
@@ -179,18 +201,18 @@ xdebug.log=/var/log/apache2/xdebug.log
       "runtimeArgs": [
         "-dxdebug.mode=debug",
         "-dxdebug.start_with_request=yes",
+        // "-S", para indicar que se va a usar el servidor interno de PHP
+        // "localhost:80 u 8080. El puerto que se va a usar. Uno de los que tengas abierto
         "-S",
-        "127.0.0.1:0"
+        "localhost:80"
       ],
       "program": "",
       "cwd": "${workspaceRoot}",
-      "port": 9000,
-      "pathMappings": {
-        "/var/www/html": "${workspaceFolder}"
-      },
+      "port": 9003,
       "serverReadyAction": {
-        "pattern": "Development Server \\(http://127.0.0.1:([0-9]+)\\) started",
-        "uriFormat": "http://127.0.0.1:%s",
+        "pattern": "Development Server \\(http://localhost:([0-9]+)\\) started",
+        // ${relativeFile} para abrir el archivo actual
+        "uriFormat": "http://localhost:%s/${relativeFile}",
         "action": "openExternally"
       }
     }
