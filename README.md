@@ -1,6 +1,12 @@
 > [!WARNING]
 >
-> Pendiente de actualizar README con los ultimos cambios. Se han añadido dos configuraciones de devcontainer (php y php_BD) con sus respectivos archivos (devcontainer.json, docker-compose.yml, Dockerfile y xdebug.ini). La configuración php incluye un contenedor para desarrollo PHP con Xdebug, mientras que php_BD añade servicios de MariaDB y phpMyAdmin. También se han actualizado las configuraciones de VSCode (launch.json) para soportar la depuración y ejecución de scripts PHP. Además, se ha añadido la opción de activar o desactivar phpMyAdmin a través de una variable en el archivo .env.
+> Pendiente de actualizar README con los ultimos cambios. Lista de cambios:
+>
+> - Se han añadido dos configuraciones de devcontainer (php y php_BD) con sus respectivos archivos (devcontainer.json, docker-compose.yml, Dockerfile y xdebug.ini).
+> - La configuración php incluye un contenedor para desarrollo PHP con Xdebug.
+> - La configuración php_BD añade servicios de MariaDB y phpMyAdmin a lo anterior.
+> - Se ha añadido la opción de activar o desactivar phpMyAdmin a través de una variable en el archivo .env.
+> - También se han actualizado las configuraciones de VSCode (launch.json) para soportar la depuración y ejecución de scripts PHP.
 
 # PHP Debug con Xdebug en DOCKER con VSCode
 
