@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet-mssql
 {
-  "name": "Dev php",
+  "name": "Php Dev",
   "dockerComposeFile": "docker-compose.yml",
   "service": "phpdev",
   // "workspaceFolder": "/workspaces",
@@ -14,19 +14,52 @@
   ],
   "customizations": {
     "vscode": {
+      "settings": {
+          "workbench.colorTheme": "Shades of Purple"
+      },
+
       "extensions": [
         "bmewburn.vscode-intelephense-client",
         "xdebug.php-debug",
         "ms-vscode-remote.remote-containers",
-        "zhuangtongfa.material-theme",
         "GitHub.copilot",
         "GitHub.copilot-chat",
         "formulahendry.code-runner"
       ]
     }
   }
+  // Aqui podríamos configurar las variables de entorno de todo el contenedor, incluso para
+  // el servidor apache, php, base de datos, etc.
+  // "remoteEnv": {
+  //   "XDEBUG_CONFIG": "remote_host=host.docker.internal remote_port=9003 idekey=VSCODE",
+  //   "PHP_IDE_CONFIG": "serverName=phpdev",
+  //   "MYSQL_ROOT_PASSWORD": "root",
+  //   "MYSQL_DATABASE": "my_database",
+  //   "MYSQL_USER": "user",
+  //   "MYSQL_PASSWORD": "password"
+  // },
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // "forwardPorts": [],
+  // "forwardPorts": [80, 9000, 9003],
+  // "portsAttributes": {
+  //   "80": {
+  //     "label": "App",
+  //     "protocol": "http"
+  //   },
+  //   "9000": {
+  //     "label": "X-Debug"
+  //   },
+  //   "9003": {
+  //     "label": "X-Debug"
+  //   }
+  // }
+
+  // Use 'postCreateCommand' to run commands after the container is created.
+  // "postCreateCommand": "echo 'Post create command'",
+  
   // Configure tool-specific properties.
   // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root"

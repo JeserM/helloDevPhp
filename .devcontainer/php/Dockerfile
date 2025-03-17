@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/devcontainers/php:1-8.2-bookworm
 
-WORKDIR /var/www/html
+# WORKDIR /var/www/html
 # RUN apt-get update && \
 #   apt-get install -y \
 #   libpng-dev \
@@ -17,7 +17,7 @@ COPY xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 COPY xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 # COPY xdebug_test.ini /usr/local/etc/php/conf.d/xdebug_test.ini
 
-EXPOSE 80
-EXPOSE 8080
-EXPOSE 9000
-EXPOSE 9003
+# EXPOSE 80
+# EXPOSE 8080
+# EXPOSE 9000
+# EXPOSE 9003

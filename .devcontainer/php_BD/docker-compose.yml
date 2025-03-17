@@ -1,0 +1,64 @@
+services:
+  db:
+    image: mariadb:11.8-ubi9-rc
+    # Reinicia el contenedor si se detiene por fallo, pero no si se detiene manualmente
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    # env_file:
+    #   - .env
+    ports:
+      - '127.0.0.1:3306:3306'
+    labels:
+      - "port.3306=MariaDB"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  phpdev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/workspaces
+    # - .:/var/www/html
+    ports:
+      - '127.0.0.1:80:80' # Puerto para la aplicación web
+      - '127.0.0.1:9000:9000' # Puerto para Xdebug (versión anterior a Xdebug 3)
+      - '127.0.0.1:9003:9003' # Puerto para Xdebug (Xdebug 3)
+    labels:
+      - "port.80=App Web"
+      - "port.9000=Xdebug"
+      - "port.9003=Xdebug3"
+    depends_on:
+      - db
+
+
+  phpmyadmin:
+    image: phpmyadmin:5.2.2-apache
+    restart: unless-stopped
+    environment:
+      PMA_HOST: ${PMA_HOST}
+      PMA_PORT: ${PMA_PORT}
+      # Aprovecvho y uso las mismas variables de entorno que el contenedor de la BD
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - '127.0.0.1:8080:80' # 80 del contenedor al puerto 8080 del host
+    labels:
+      - "port.8080=PhpMyAdmin"
+    depends_on:
+      - db
+    # profiles: ["phpmyadmin"] #POr si quiero lanzar a mano
+    # env_file:
+    #   - .env
+    # Esta línea la uso para habilitar o deshabilitar phpMyAdmin 
+    # 1 para habilitar, 0 para deshabilitar. POr defecto cero
+    # Tengo que cambiarlo en el archivo .env
+    deploy:
+      replicas: ${ENABLE_PHPMYADMIN:-0}
+
+volumes:
+  db_data:

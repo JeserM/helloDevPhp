@@ -1,0 +1,19 @@
+services:
+  phpdev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ../:/workspaces
+      # - .:/var/www/html
+    ports:
+      - '127.0.0.1:80:80' # Puerto para la aplicación web
+      - '127.0.0.1:9000:9000' # Puerto para Xdebug (versión anterior a Xdebug 3)
+      - '127.0.0.1:9003:9003' # Puerto para Xdebug (Xdebug 3)
+    labels:
+      - "port.80=App Web"
+      - "port.9000=Xdebug"
+      - "port.9003=Xdebug3"
+
+
+
