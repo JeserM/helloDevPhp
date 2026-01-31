@@ -42,7 +42,13 @@ services:
     environment:
       PMA_HOST: ${PMA_HOST}
       PMA_PORT: ${PMA_PORT}
-      # Aprovecvho y uso las mismas variables de entorno que el contenedor de la BD
+      # Aprovecho y uso las mismas variables de entorno que el contenedor de la BD
+      # CUIDADO AQUI
+      # Poner root para tener todos los privilegios, y que mariadb no ponga problemas con el nombre de user
+      # si lo dejo del otro modo da problemas luego al abrir phpmyadmin, porque provoca
+      # confusion con lo que tengo configurado en el .env
+      # PMA_USER: root
+      # si tienes claro que user va y lo tienes bien configurado en el .env puedes usarlo. Pero OJO
       PMA_USER: ${MYSQL_USER}
       PMA_PASSWORD: ${MYSQL_PASSWORD}
     ports:
