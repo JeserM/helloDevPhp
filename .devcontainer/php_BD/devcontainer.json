@@ -30,14 +30,14 @@
         "GitHub.copilot-chat",
         "formulahendry.code-runner"
       ]
-    },
-    // --- ORQUESTACIÓN DE SERVICIOS ---
-    // Para elegir los servicios que se ejecutarán en el contenedor
-    // con o sin phpmyadmin. Para que funcione tiene que estar
-    // configurado en el archivo docker-compose.yml y configurado el profile
-    // "runServices": ["db", "phpdev"] // Útil si no necesitas interfaz gráfica
-    "runServices": ["db", "phpdev", "phpmyadmin"]
-  }
+    }
+  },
+  // --- ORQUESTACIÓN DE SERVICIOS ---
+  // Para elegir los servicios que se ejecutarán en el contenedor
+  // con o sin phpmyadmin. Para que funcione tiene que estar
+  // configurado en el archivo docker-compose.yml y configurado el profile
+  // "runServices": ["db", "phpdev"] // Útil si no necesitas interfaz gráfica
+  "runServices": ["db", "phpdev", "phpmyadmin"]
   // --- VARIABLES DE ENTORNO REMOTAS ---
   // Aqui podríamos configurar las variables de entorno de todo el contenedor, incluso para
   // el servidor apache, php, base de datos, etc.

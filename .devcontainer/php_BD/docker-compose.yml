@@ -30,6 +30,7 @@ services:
     build:
       context: .  # Ruta al Dockerfile
       dockerfile: Dockerfile
+    restart: unless-stopped
     volumes: # Montajes de volúmenes
       - ../:/workspaces # Montaje del código fuente en el contenedor
     # - .:/var/www/html
@@ -48,6 +49,7 @@ services:
   phpmyadmin:
     image: phpmyadmin:5.2.2-apache
     restart: unless-stopped
+    profiles: ["phpmyadmin"]   # se inicia solo si lo pides, o si lo tienes en runServices en devcontainer.json
     environment:
       PMA_HOST: ${PMA_HOST}
       PMA_PORT: ${PMA_PORT}
