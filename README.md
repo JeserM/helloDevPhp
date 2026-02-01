@@ -3,7 +3,10 @@
 Devcontainer para PHP con Xdebug en Docker con VSCode.
 
 <html>
-  <img class= "img" src="./images/portada.png" width= "100%"/>
+  <div style="text-align: center;">
+    <img class= "img" src="./images/portadaok.png" width= "100%"/>
+    <!-- <img class= "img" src="./images/iconos.png" width= "50%"/> -->
+  </div>
 </html>
 
 # Índice
@@ -25,6 +28,12 @@ Devcontainer para PHP con Xdebug en Docker con VSCode.
 ## Descripción
 
 Este repositorio contiene configuraciones para un entorno de desarrollo PHP utilizando Docker y VSCode, con soporte para depuración mediante Xdebug. Incluye dos configuraciones de devcontainer: una básica para PHP y otra que añade servicios de base de datos (MariaDB y phpMyAdmin).
+
+<html>
+  <div style="text-align: centerleft;">
+    <img class= "img" src="./images/iconos.png" width= "50%"/>
+  </div>
+</html>
 
 Que es devcontainer: https://code.visualstudio.com/docs/remote/containers
 
@@ -97,10 +106,21 @@ En mi caso, he creado dos devcontainers para proyectos PHP, uno básico y otro c
 
 1. Abre VSCode.
 2. Instala la extensión "Remote - Containers" si no la tienes ya.
-3. Clona este repositorio o abre la carpeta del proyecto que contiene el devcontainer.
-4. Haz clic en el icono verde en la esquina inferior izquierda de VSCode (Remote - Containers).
-5. Selecciona "Reopen in Container".
-6. VSCode construirá y abrirá el contenedor según la configuración del devcontainer.json
+3. Clona este repositorio o abre la carpeta del proyecto que contiene el devcontainer. Para clonar el repositorio, usa el comando:
+
+   ```bash
+   git clone
+   o puedes desde VSCode usar "Clone Repository" desde la paleta de comandos (Ctrl+Shift+P).
+   ```
+
+4. Una vez clonado. Hay dos configuraciones de devcontainer disponibles en la carpeta .devcontainer:
+   - php: Contenedor básico para desarrollo PHP con Xdebug.
+   - php_BD: Contenedor para desarrollo PHP con Xdebug, MariaDB y phpMyAdmin.
+5. Haz clic en el icono verde en la esquina inferior izquierda de VSCode (Remote - Containers).
+6. Selecciona "Reopen in Container".
+7. VSCode construirá y abrirá el contenedor según la configuración del devcontainer.json seleccionado. Esto puede tardar unos minutos la primera vez.
+8. Una vez dentro del contenedor, puedes abrir una terminal integrada (Ctrl+`) para ejecutar comandos dentro del contenedor.
+9. Abre los archivos PHP en el contenedor y comienza a desarrollar.
 
 ## Cómo probar localmente:
 
