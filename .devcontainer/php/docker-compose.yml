@@ -1,12 +1,16 @@
+# ==============================================================================
+# ENTORNO DE DESARROLLO PHP USANDO DOCKER COMPOSE
+# ==============================================================================
 services:
+  # --- ENTORNO DE DESARROLLO PHP ---
   phpdev:
     build:
-      context: .
+      context: .  # Ruta al Dockerfile
       dockerfile: Dockerfile
-    volumes:
-      - ../:/workspaces
-      # - .:/var/www/html
-    ports:
+    volumes: # Montajes de volúmenes
+      - ../:/workspaces # Montaje del código fuente en el contenedor
+    # - .:/var/www/html
+    ports: # Mapeo de puertos
       - '127.0.0.1:80:80' # Puerto para la aplicación web
       - '127.0.0.1:9000:9000' # Puerto para Xdebug (versión anterior a Xdebug 3)
       - '127.0.0.1:9003:9003' # Puerto para Xdebug (Xdebug 3)

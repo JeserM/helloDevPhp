@@ -4,20 +4,24 @@
   "name": "Php Dev BD ",
   "dockerComposeFile": "docker-compose.yml",
   "service": "phpdev",
-  // "workspaceFolder": "/workspaces",
+  // --- DIRECTORIO DE TRABAJO ---
+  // "workspaceFolder": "/workspaces", // Ruta por defecto de Dev Containers
   //workspaceFolder es el directorio de trabajo en el contenedor
-  "workspaceFolder": "/var/www/html",
+  "workspaceFolder": "/var/www/html", // Usamos esta porque es la ruta estándar del servidor Apache en el contenedor
+  // --- MONTAJES  ---
   // Sincroniza el directorio del proyecto con /var/www/html
   "mounts": [
+    // Opción para mapear solo la carpeta de código fuente (src)
     // "source=${localWorkspaceFolder}/src,target=/var/www/html,type=bind"
+    // Opción actual: Sincroniza la raíz del proyecto. Es mejor para tener acceso a .env y archivos de config
     "source=${localWorkspaceFolder},target=/var/www/html,type=bind"
   ],
+  // --- PERSONALIZACIONES DE VSCODE Y SERVICIOS ---
   "customizations": {
     "vscode": {
       "settings": {
-        "workbench.colorTheme": "Dracula Theme"
+        "workbench.colorTheme": "One Dark Pro Darker"
       },
-
       "extensions": [
         "bmewburn.vscode-intelephense-client",
         "xdebug.php-debug",
@@ -27,14 +31,18 @@
         "formulahendry.code-runner"
       ]
     },
+    // --- ORQUESTACIÓN DE SERVICIOS ---
     // Para elegir los servicios que se ejecutarán en el contenedor
     // con o sin phpmyadmin. Para que funcione tiene que estar
     // configurado en el archivo docker-compose.yml y configurado el profile
-    // "runServices": ["db", "phpdev"]
+    // "runServices": ["db", "phpdev"] // Útil si no necesitas interfaz gráfica
     "runServices": ["db", "phpdev", "phpmyadmin"]
   }
+  // --- VARIABLES DE ENTORNO REMOTAS ---
   // Aqui podríamos configurar las variables de entorno de todo el contenedor, incluso para
   // el servidor apache, php, base de datos, etc.
+  //¿Por qué mantenerlo? Es útil si necesitas forzar una configuración de Xdebug
+  // o DB sin modificar el servidor o el archivo .env global.
   // "remoteEnv": {
   //   "XDEBUG_CONFIG": "remote_host=host.docker.internal remote_port=9003 idekey=VSCODE",
   //   "PHP_IDE_CONFIG": "serverName=phpdev",
@@ -43,10 +51,15 @@
   //   "MYSQL_USER": "user",
   //   "MYSQL_PASSWORD": "password"
   // },
-  // Features to add to the dev container. More info: https://containers.dev/features.
+  // --- FEATURES ---
+  // Permite añadir herramientas adicionales (como Git, Docker-in-Docker, etc.) fácilmente.
+  // Mas info: https://containers.dev/features.
   // "features": {},
 
-  // Use 'forwardPorts' to make a list of ports inside the container available locally.
+  // --- REENVÍO DE PUERTOS (FORWARD PORTS) ---
+  // ¿Por qué comentarlos? Porque ya los estás exponiendo en el docker-compose.yml.
+  // Solo se deben activar aquí si necesitas que VS Code gestione el túnel de forma automática
+  // cuando te conectas de forma remota (por ejemplo, a través de SSH o GitHub Codespaces).
   // "forwardPorts": [],
   // "forwardPorts": [80, 9000, 9003],
   // "portsAttributes": {
@@ -62,10 +75,11 @@
   //   }
   // }
 
-  // Use 'postCreateCommand' to run commands after the container is created.
-  // "postCreateCommand": "echo 'Post create command'",
+  // --- COMANDOS POST-CREACIÓN ---
+  // Ideal para instalar dependencias automáticamente (composer install, npm install)
+  // "postCreateCommand": "echo 'Contenedor listo'",
 
-  // Configure tool-specific properties.
-  // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+  // Configuraciones especificas como por ejemplo un usuario remoto.
+  // Mas info: https://aka.ms/dev-containers-non-root.
   // "remoteUser": "root"
 }

@@ -1,30 +1,39 @@
+# ==============================================================================
+# ENTORNO DE DESARROLLO PHP + MARIADB + PHPMYADMIN
+# ==============================================================================
+# Este archivo levanta un stack completo de desarrollo. 
+# Las credenciales y configuración se gestionan mediante el archivo .env
+# ==============================================================================
 services:
+# --- MOTOR DE BASE DE DATOS ---
   db:
-    image: mariadb:11.8-ubi9-rc
-    # Reinicia el contenedor si se detiene por fallo, pero no si se detiene manualmente
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    image: mariadb:11.8-ubi9-rc 
+    restart: unless-stopped # Reinicia el contenedor si se detiene por fallo, pero no si se detiene manualmente
+    environment: # Variables de entorno para la configuración de MariaDB
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} # Contraseña del usuario root
+      MYSQL_DATABASE: ${MYSQL_DATABASE} # Nombre de la base de datos a crear
+      MYSQL_USER: ${MYSQL_USER} # Usuario adicional
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD} # Contraseña del usuario adicional
+      # PMA_HOST y PMA_PORT se usan en el contenedor de phpmyadmin  
     # env_file:
     #   - .env
     ports:
-      - '127.0.0.1:3306:3306'
-    labels:
-      - "port.3306=MariaDB"
-    volumes:
+      - '127.0.0.1:3306:3306' # Mapeo local para herramientas externas
+    labels: # Etiquetas para identificar los puertos en herramientas
+      - "port.3306=MariaDB" 
+    volumes: # Montaje de volumen para persistencia de datos
       - db_data:/var/lib/mysql
+
+  # --- ENTORNO DE DESARROLLO PHP ---
 
   phpdev:
     build:
-      context: .
+      context: .  # Ruta al Dockerfile
       dockerfile: Dockerfile
-    volumes:
-      - ../:/workspaces
+    volumes: # Montajes de volúmenes
+      - ../:/workspaces # Montaje del código fuente en el contenedor
     # - .:/var/www/html
-    ports:
+    ports: # Mapeo de puertos
       - '127.0.0.1:80:80' # Puerto para la aplicación web
       - '127.0.0.1:9000:9000' # Puerto para Xdebug (versión anterior a Xdebug 3)
       - '127.0.0.1:9003:9003' # Puerto para Xdebug (Xdebug 3)
@@ -32,10 +41,10 @@ services:
       - "port.80=App Web"
       - "port.9000=Xdebug"
       - "port.9003=Xdebug3"
-    depends_on:
-      - db
+    depends_on: # Dependencias de servicio
+      - db # Asegura que la base de datos esté disponible antes de iniciar PHP
 
-
+# --- ADMINISTRACIÓN DE BD (OPCIONAL) ---
   phpmyadmin:
     image: phpmyadmin:5.2.2-apache
     restart: unless-stopped

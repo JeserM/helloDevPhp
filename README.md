@@ -7,6 +7,7 @@
 > - La configuración php_BD añade servicios de MariaDB y phpMyAdmin a lo anterior.
 > - Se ha añadido la opción de activar o desactivar phpMyAdmin a través de una variable en el archivo .env.
 > - También se han actualizado las configuraciones de VSCode (launch.json) para soportar la depuración y ejecución de scripts PHP.
+> - Cambios en los archivos Dockerfile y xdebug.ini para mejorar la configuración de Xdebug y la instalación de extensiones PHP.
 
 # PHP Debug con Xdebug en DOCKER con VSCode
 
