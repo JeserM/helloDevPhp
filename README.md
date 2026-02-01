@@ -1,3 +1,59 @@
+# PHP Debug con Xdebug en DOCKER con VSCode
+
+Devcontainer para PHP con Xdebug en Docker con VSCode.
+
+<html>
+  <div>
+  <img class= "img" src="./images/devcontainer.png" width= "6%"/>
+  <img class= "img" src="./images/docker.png" width= "6%"/>
+  <img class= "img" src="./images/vscode.png" width= "10%"/>
+  <img class= "img" src="./images/apache2.png" width= "10%"/>
+  <img class= "img" src="./images/php.png" width= "6%"/>
+  <img class= "img" src="./images/mariadb.png" width= "6%"/>
+<div/>
+</html>
+
+# Índice
+
+- [Descripción](#descripción)
+- [Cambios recientes](#cambios-recientes)
+- [Cómo se abre paso a paso para lanzar el contenedor en VSCode](#cómo-se-abre-paso-a-paso-para-lanzar-el-contenedor-en-vscode)
+- [Cómo probar localmente](#cómo-probar-localmente)
+- [Imagenes utilizadas](#imagenes-utilizadas)
+- [Abrir puertos y tener en cuenta la seguridad](#abrir-puertos-y-tener-en-cuenta-la-seguridad)
+- [Comprobar que Xdebug está instalado, los puertos y la IP del cliente](#comprobar-que-xdebug-está-instalado-los-puertos-y-la-ip-del-cliente)
+- [Devcontainer.json](#devcontainerjson)
+- [Docker-compose.yml](#docker-composeyml)
+- [Dockerfile](#dockerfile)
+- [Xdebug.ini](#xdebugini)
+- [launch.json de VSCode para debug](#launchjson-de-vscode-para-debug)
+- [Hosts](#hosts)
+
+## Descripción
+
+Este repositorio contiene configuraciones para un entorno de desarrollo PHP utilizando Docker y VSCode, con soporte para depuración mediante Xdebug. Incluye dos configuraciones de devcontainer: una básica para PHP y otra que añade servicios de base de datos (MariaDB y phpMyAdmin).
+
+Que es devcontainer: https://code.visualstudio.com/docs/remote/containers
+
+Son entornos de desarrollo definidos por código que permiten a los desarrolladores crear y configurar entornos de desarrollo consistentes y portátiles utilizando contenedores Docker. Los devcontainers facilitan la configuración del entorno de desarrollo al proporcionar un archivo de configuración (devcontainer.json) que define las dependencias, herramientas y configuraciones necesarias para el proyecto.
+Esto permite a los desarrolladores trabajar en un entorno aislado y reproducible, lo que mejora la colaboración y reduce los problemas relacionados con las diferencias en las configuraciones del entorno de desarrollo entre diferentes máquinas.
+
+Se pueden usar devcontainers para una variedad de propósitos, como:
+
+- Configurar entornos de desarrollo para proyectos específicos.
+- Probar aplicaciones en diferentes configuraciones de entorno.
+- Facilitar la colaboración entre equipos de desarrollo al garantizar que todos trabajen en el mismo entorno.
+- Automatizar la configuración del entorno de desarrollo para nuevos miembros del equipo.
+- Aislar dependencias y herramientas específicas del proyecto para evitar conflictos con otras aplicaciones en la máquina del desarrollador.
+
+Pueden usar devcontainers para proyectos en una amplia gama de lenguajes de programación y marcos de trabajo, incluyendo Node.js, Python, Java, .NET, PHP, Ruby, entre otros.
+
+Tambien se puede usar con GitHub Codespaces, que permite a los desarrolladores crear entornos de desarrollo en la nube basados en devcontainers directamente desde repositorios de GitHub.Asi como con otros ides como JetBrains, antigr
+
+En mi caso, he creado dos devcontainers para proyectos PHP, uno básico y otro con base de datos.
+
+## Cambios recientes
+
 > [!WARNING]
 >
 > Pendiente de actualizar README con los ultimos cambios. Lista de cambios:
@@ -8,22 +64,90 @@
 > - Se ha añadido la opción de activar o desactivar phpMyAdmin a través de una variable en el archivo .env.
 > - También se han actualizado las configuraciones de VSCode (launch.json) para soportar la depuración y ejecución de scripts PHP.
 > - Cambios en los archivos Dockerfile y xdebug.ini para mejorar la configuración de Xdebug y la instalación de extensiones PHP.
+>
+> Cambios principales (resumen):
+>
+> - Añadida segunda configuración de devcontainer (php_BD) que incluye MariaDB y phpMyAdmin; phpMyAdmin puede activarse vía .env en [.devcontainer/php_BD/.env](.devcontainer/php_BD/.env) (si existe).
+> - Ajustes en Xdebug: modo debug/ develop, idekey por defecto VSCODE, start_with_request=yes, client_port=9003 y client_host apuntando a host.docker.internal para compatibilidad con contenedores.
+> - Dockerfiles actualizados para instalar extensiones necesarias (por ejemplo pdo_mysql) y copiar xdebug.ini en /usr/local/etc/php/conf.d/.
+> - Actualizadas configuraciones de VSCode en [.vscode/launch.json](.vscode/launch.json) para:
+>   - Escuchar Xdebug en el puerto 9003.
+>   - Lanzar scripts abiertos con Xdebug habilitado.
+>   - Ejecutar servidor integrado con acciones para abrir el navegador cuando el servidor esté listo.
+> - Documentación añadida en README.md para explicar la configuración, pruebas y recomendaciones de seguridad.
+>
+> Archivos clave modificados:
+>
+> - [.devcontainer/php/devcontainer.json](.devcontainer/php/devcontainer.json)
+> - [.devcontainer/php/docker-compose.yml](.devcontainer/php/docker-compose.yml)
+> - [.devcontainer/php/Dockerfile](.devcontainer/php/Dockerfile)
+> - [.devcontainer/php/xdebug.ini](.devcontainer/php/xdebug.ini)
+> - [.devcontainer/php_BD/devcontainer.json](.devcontainer/php_BD/devcontainer.json)
+> - [.devcontainer/php_BD/docker-compose.yml](.devcontainer/php_BD/docker-compose.yml)
+> - [.devcontainer/php_BD/Dockerfile](.devcontainer/php_BD/Dockerfile)
+> - [.devcontainer/php_BD/xdebug.ini](.devcontainer/php_BD/xdebug.ini)
+> - [.vscode/launch.json](.vscode/launch.json)
+>
+> Comprobaciones y recomendaciones de seguridad y puertos:
+>
+> - Se recomiendan bindings locales (127.0.0.1) para los puertos expuestos: 80, 8080, 9000, 9003.
+> - Comprobar que Xdebug está instalado y configurado correctamente mediante un script phpinfo().
+> - Compruebor el archivo hosts para mapear host.docker.internal a 127.0.0.1 si usa Docker Desktop o entornos donde host-gateway no esté disponible.
+> - Se recomienda usar host.docker.internal en xdebug.client_host para evitar tener que modificar constantemente la IP cliente en múltiples redes.
+>
+> Detalles técnicos añadidos:
+>
+> - Se documentó explícitamente que los ficheros xdebug.ini se copian en dos nombres para asegurar carga en distintos entornos: docker-php-ext-xdebug.ini y xdebug.ini. Ver [.devcontainer/php/Dockerfile](.devcontainer/php/Dockerfile).
+> - Se recomienda usar host.docker.internal en xdebug.client_host para evitar tener que modificar constantemente la IP cliente en múltiples redes.
+>
+> Referencias rápidas dentro del repo:
+>
+> - [.devcontainer/php/Dockerfile](.devcontainer/php/Dockerfile)
+> - [.devcontainer/php/xdebug.ini](.devcontainer/php/xdebug.ini)
+> - [.devcontainer/php/docker-compose.yml](.devcontainer/php/docker-compose.yml)
+> - [.devcontainer/php/devcontainer.json](.devcontainer/php/devcontainer.json)
+> - [.devcontainer/php_BD/devcontainer.json](.devcontainer/php_BD/devcontainer.json)
+> - [.vscode/launch.json](.vscode/launch.json)
 
-# PHP Debug con Xdebug en DOCKER con VSCode
+## Cómo se abre paso a paso para lanzar el contenedor en VSCode:
 
-Devcontainer para PHP con Xdebug en Docker con VSCode.
+1. Abre VSCode.
+2. Instala la extensión "Remote - Containers" si no la tienes ya.
+3. Clona este repositorio o abre la carpeta del proyecto que contiene el devcontainer.
+4. Haz clic en el icono verde en la esquina inferior izquierda de VSCode (Remote - Containers).
+5. Selecciona "Reopen in Container".
+6. VSCode construirá y abrirá el contenedor según la configuración del devcontainer.json
 
-<html>
-  <div>
-  <img class= "img" src="./images/docker.png" width= "6%"/>
-  <img class= "img" src="./images/apache2.png" width= "10%"/>
-  <img class= "img" src="./images/php.png" width= "6%"/>
-<div/>
-</html>
+## Cómo probar localmente:
 
-## Requisitos
+1.  Abrir el proyecto en VSCode y usar "Reopen in Container" con la configuración deseada (php o php_BD).
+2.  Verificar que el contenedor arranque sin errores y que las rutas de workspace estén mapeadas a /var/www/html.
+3.  Abrir [web_test/phpinfo.php](web_test/phpinfo.php) en el navegador del host (ej. http://localhost:80 o el puerto configurado) para confirmar phpinfo y Xdebug.
+4.  Iniciar la configuración "Listen for Xdebug" desde la paleta de depuración de VSCode (configuración en [.vscode/launch.json](.vscode/launch.json)).
+5.  Colocar un punto de interrupción en [web_test/test_debug.php](web_test/test_debug.php) y acceder a este archivo desde el navegador (ej. http://localhost:80/web_test/test_debug.php) o iniciar directmente la depuración con la configuración "Launch Built-in web server" desde VSCode.
+6.  Verificar que la ejecución se detiene en el punto de interrupción y que se pueden inspeccionar variables y avanzar en la depuración.
 
-Abrir puertos y tener en cuenta la seguridad:
+## Imagenes utilizadas
+
+Las imagenes base son a modo orientativo. Deberias elegir las que mejor se adapten a tus necesidades, estables y actualizadas. Las que he usado deberían ser modificadas, pero para el caso de ejemplo sirven y estna funcionando correctamente.
+Para el caso del contendor de desarrollo de PHP he utilizado la siguiente imagen base, que incluye Apache y PHP 8.2 sobre Debian Bookworm, es una imagen oficial de Microsoft para devcontainers:
+
+- mcr.microsoft.com/devcontainers/php:1-8.2-bookworm
+
+Para la base de datos he utilizado mariaDB por facilidad de uso y configuración:
+
+- Mariadb:11.8-ubi9-rc
+
+Para añadir un servicio mas y mostrar que pueden escalarse los devcontainers, he añadido phpMyAdmin para gestionar la base de datos desde un navegador web:
+
+- phpmyadmin:5.2.2-apache
+
+# Pendiente de completar README con los apartados siguientes:
+
+Son pequeñas muestras del contenido de los archivos mas importantes. El contenido completo está en el repositorio.
+Así como instrucciones para probar y recomendaciones de seguridad, y otras consideraciones como por ejemplo el archivo hosts.
+
+## Abrir puertos y tener en cuenta la seguridad:
 
 -expose:
 
