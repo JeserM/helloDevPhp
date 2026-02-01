@@ -3,7 +3,7 @@
 Devcontainer para PHP con Xdebug en Docker con VSCode.
 
 <html>
-  <img class= "img" src="./images/image.png" width= "75%"/>
+  <img class= "img" src="./images/image.png" width= "100%"/>
 </html>
 
 # Índice
@@ -92,15 +92,6 @@ En mi caso, he creado dos devcontainers para proyectos PHP, uno básico y otro c
 >
 > - Se documentó explícitamente que los ficheros xdebug.ini se copian en dos nombres para asegurar carga en distintos entornos: docker-php-ext-xdebug.ini y xdebug.ini. Ver [.devcontainer/php/Dockerfile](.devcontainer/php/Dockerfile).
 > - Se recomienda usar host.docker.internal en xdebug.client_host para evitar tener que modificar constantemente la IP cliente en múltiples redes.
->
-> Referencias rápidas dentro del repo:
->
-> - [.devcontainer/php/Dockerfile](.devcontainer/php/Dockerfile)
-> - [.devcontainer/php/xdebug.ini](.devcontainer/php/xdebug.ini)
-> - [.devcontainer/php/docker-compose.yml](.devcontainer/php/docker-compose.yml)
-> - [.devcontainer/php/devcontainer.json](.devcontainer/php/devcontainer.json)
-> - [.devcontainer/php_BD/devcontainer.json](.devcontainer/php_BD/devcontainer.json)
-> - [.vscode/launch.json](.vscode/launch.json)
 
 ## Cómo se abre paso a paso para lanzar el contenedor en VSCode:
 
