@@ -146,9 +146,10 @@ Para añadir un servicio mas y mostrar que pueden escalarse los devcontainers, h
 
 - phpmyadmin:5.2.2-apache
 
-# Pendiente de completar README con los apartados siguientes:
+# Pendiente de completar y mejorar el README en los apartados siguientes:
 
-Son pequeñas muestras del contenido de los archivos mas importantes. El contenido completo está en el repositorio.
+Lo iré completando poco a poco, a medida que vaya emjorando el devcontainer y probando cosas nuevas. Y si surgen dudas o problemas, los iré resolviendo y documentando aquí.
+Ls siguiente son pequeñas muestras y parches que me fueron surgiendo mientras creaba el devcontainer. El contenido completo está en el repositorio.
 Así como instrucciones para probar y recomendaciones de seguridad, y otras consideraciones como por ejemplo el archivo hosts.
 
 ## Abrir puertos y tener en cuenta la seguridad:
@@ -169,13 +170,15 @@ Así como instrucciones para probar y recomendaciones de seguridad, y otras cons
 
 ### Comprobar que Xdebug está instalado, los puertos y la IP del cliente
 
+Abre el archivo `phpinfo.php` en el navegador para comprobar que Xdebug está instalado. Comprueba también que el puerto y el valor de `client_host` coinciden con los definidos en el archivo `xdebug.ini`. Esto te ayudará a evitar tener que cambiar la IP del cliente cada vez que cambies de red. Revisa bien estos datos y asegúrate de que la configuración de `xdebug.ini`, `launch.json` y el archivo `hosts` sea coherente.
+
 ```php
 <?php
 phpinfo();
 ?>
 ```
 
-![alt text](./images/image.png)
+![alt text](./images/phpinfo.png)
 
 ### Devcontainer.json
 
@@ -294,6 +297,11 @@ xdebug.log=/var/log/apache2/xdebug.log
 ```
 
 ### launch.json de VSCode para debug
+
+> [!WARNING]
+> Este archivo debe estar en la carpeta .vscode del proyecto. es con el que se configura VSCode para depurar con Xdebug.
+> He tenido que hacer algunos ajustes para que funcione correctamente con el contenedor y Xdebug 3. POr ejemplo, he cambiado el puerto a 9003 que es el que usa Xdebug 3 por defecto. Así como que lance como localhost y no la IP del contenedor.
+> Pueden hacerse mejores ajustes según las necesidades de cada uno. Para mi caso de uso funciona correctamente y no necesitaba mas. Es solo una idea de como configurarlo.
 
 ```json
 {
