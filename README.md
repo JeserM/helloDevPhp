@@ -3,14 +3,7 @@
 Devcontainer para PHP con Xdebug en Docker con VSCode.
 
 <html>
-  <div>
-  <img class= "img" src="./images/devcontainer.png" width= "6%"/>
-  <img class= "img" src="./images/docker.png" width= "6%"/>
-  <img class= "img" src="./images/vscode.png" width= "10%"/>
-  <img class= "img" src="./images/apache2.png" width= "10%"/>
-  <img class= "img" src="./images/php.png" width= "6%"/>
-  <img class= "img" src="./images/mariadb.png" width= "6%"/>
-<div/>
+  <img class= "img" src="./images/image.png" width= "75%"/>
 </html>
 
 # Índice
