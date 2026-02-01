@@ -371,7 +371,11 @@ xdebug.log=/var/log/apache2/xdebug.log
         "localhost:80"
       ],
       "program": "",
-      "cwd": "${workspaceRoot}",
+      // "cwd": "${workspaceFolder}", es la variable moderna y recomendada por VS Code.
+      // ${workspaceRoot} se mantiene solo por compatibilidad.
+      // En Dev Containers, ${workspaceFolder} garantiza rutas coherentes y depuración estable.
+      "cwd": "${workspaceFolder}",
+      // "cwd": "${workspaceRoot}",
       "port": 9003,
       "serverReadyAction": {
         "pattern": "Development Server \\(http://localhost:([0-9]+)\\) started",
