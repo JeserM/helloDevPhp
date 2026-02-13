@@ -5,9 +5,8 @@
 
 # PHP Dev Container (Docker + VS Code + Xdebug)
 
-Entorno de desarrollo PHP reproducible basado en Docker y DevContainers. Orientado a entornos de desarrollo educativos, profesionales y DevOps.
-Permite crear un entorno completo listo para desarrollo y depuración profesional
-en segundos, eliminando problemas de configuración y diferencias entre máquinas.
+Dev Container para desarrollo PHP con Docker, VS Code y Xdebug, orientado a entornos
+de desarrollo reproducibles, portátiles y preparados para depuración profesional.
 
 El proyecto incluye dos configuraciones:
 
@@ -20,22 +19,81 @@ Está pensado tanto para desarrollo local como para entornos en la nube (GitHub 
   <img src="./images/portadaok.png" width="85%" />
 </p>
 
+## Problema que resuelve
+
+En entornos de desarrollo tradicionales cada desarrollador configura su
+propio entorno, lo que provoca:
+
+- Diferencias de configuración
+- Problemas de dependencias
+- Dificultad para reproducir errores
+- Tiempo perdido en setup
+
+Este proyecto nace de mi necesidad para proporcionar un entorno **reproducible,
+portable y listo para depuración profesional**, eliminando las barreras técnicas
+y permitiendo a los desarrolladores centrarse en el código.
+
+## Arquitectura
+
+El proyecto ofrece dos entornos Dev Container:
+
+**php**
+
+- PHP + Apache + Xdebug
+- Contenedor único para desarrollo ligero
+
+**php_BD**
+
+- PHP + Apache + Xdebug
+- MariaDB
+- phpMyAdmin opcional bajo demanda
+
+Todos los servicios están aislados y conectados mediante Docker Network.
+
+## Estado del proyecto
+
+✔ Entorno funcional y probado  
+✔ Documentación completa  
+✔ Preparado para desarrollo real  
+✔ Alta compatibilidad,flexibilidad y personalización
+
+El proyecto continúa evolucionando y se seguirá ampliando con nuevas
+mejoras y escenarios de uso.
+
 ## Quick start
 
 1. Abre el repo en VS Code.
 2. `Reopen in Container`.
 3. Inicia la configuración **Listen for Xdebug**.
-4. Accede a http://localhost/web_test/test_debug.php
+4. Abre `web_test/test_debug.php` en el navegador.
 5. Listo para desarrollar y depurar.
 
-## Descripción
+# Índice
+
+- [Descripción ampliada](#descripción-ampliada)
+- [Tecnologías utilizadas](#tecnologías-utilizadas)
+- [Cambios recientes](#cambios-recientes)
+- [Cómo se abre paso a paso para lanzar el contenedor en VSCode](#cómo-se-abre-paso-a-paso-para-lanzar-el-contenedor-en-vscode)
+- [Cómo probar localmente](#cómo-probar-localmente)
+- [Imágenes utilizadas](#imágenes-utilizadas)
+- [Abrir puertos y tener en cuenta la seguridad](#abrir-puertos-y-tener-en-cuenta-la-seguridad)
+- [Comprobar que Xdebug está instalado, los puertos y la IP del cliente](#comprobar-que-xdebug-está-instalado-los-puertos-y-la-ip-del-cliente)
+- [Plantillas de ejemplo para los archivos de configuración](#plantillas-de-ejemplo-para-los-archivos-de-configuración)
+- [Devcontainer.json](#devcontainerjson)
+- [Docker-compose.yml](#docker-composeyml)
+- [Dockerfile](#dockerfile)
+- [Xdebug.ini](#xdebugini)
+- [launch.json de VSCode para debug](#launchjson-de-vscode-para-debug)
+- [Hosts](#hosts)
+
+## Descripción ampliada
 
 Este repositorio contiene configuraciones para un entorno de desarrollo PHP utilizando Docker y VSCode, con soporte para depuración mediante Xdebug. Incluye dos configuraciones de devcontainer: una básica para PHP y otra que añade servicios de base de datos (MariaDB y phpMyAdmin).
 
 Hago uso de <a href="https://code.visualstudio.com/docs/remote/containers" target="_blank">devcontainers</a>. Son entornos de desarrollo definidos por
 código que permiten a los desarrolladores crear y configurar entornos de desarrollo consistentes y portátiles, utilizando contenedores Docker. Los devcontainers
 facilitan la configuración del entorno de desarrollo al proporcionar un archivo de configuración `devcontainer.json` que define las dependencias, herramientas y configuraciones necesarias para el proyecto.
-Esto permite a los desarrolladores trabajar en un entorno aislado y reproducible, lo que mejora la colaboración y reduce los problemas relacionados con las diferentes configuraciones de los entornos de desarrollo entre diferentes máquinas e incluso en la misma máquina.
+Esto permite a los desarrolladores trabajar en un entorno aislado y reproducible, lo que mejora la colaboración y reduce los problemas relacionados con las diferentes configuraciones de los entorno de desarrollo entre diferentes máquinas e incluso en la misma máquina.
 
 Se pueden usar devcontainers para una variedad de propósitos, como:
 
@@ -56,44 +114,6 @@ aunque no ofrecen soporte nativo para Dev Containers.
 
 En mi caso, he creado dos devcontainers para proyectos de desarrollo en PHP, uno básico y otro con base de datos.
 
-# Índice
-
-- [Descripción](#descripción)
-- [Problema que resuelve](#problema-que-resuelve)
-- [Tecnologías utilizadas](#tecnologías-utilizadas)
-- [Arquitectura](#arquitectura)
-- [Tipos de entorno](#tipos-de-entorno)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [Cambios recientes](#cambios-recientes)
-- [Cómo se abre paso a paso para lanzar el contenedor en VSCode](#cómo-se-abre-paso-a-paso-para-lanzar-el-contenedor-en-vscode)
-- [Cómo probar localmente](#cómo-probar-localmente)
-- [Imágenes utilizadas](#imágenes-utilizadas)
-- [Estado del proyecto](#estado-del-proyecto)
-- [Abrir puertos y tener en cuenta la seguridad](#abrir-puertos-y-tener-en-cuenta-la-seguridad)
-- [Comprobar que Xdebug está instalado, los puertos y la IP del cliente](#comprobar-que-xdebug-está-instalado-los-puertos-y-la-ip-del-cliente)
-- [Plantillas de ejemplo para los archivos de configuración](#plantillas-de-ejemplo-para-los-archivos-de-configuración)
-  - [Devcontainer.json](#devcontainerjson)
-  - [Docker-compose.yml](#docker-composeyml)
-  - [Dockerfile](#dockerfile)
-  - [Xdebug.ini](#xdebugini)
-  - [launch.json de VSCode para debug](#launchjson-de-vscode-para-debug)
-  - [Hosts](#hosts)
-- [Conclusión](#conclusión)
-
-## Problema que resuelve
-
-En entornos de desarrollo tradicionales cada desarrollador configura su
-propio entorno, lo que provoca:
-
-- Diferencias de configuración
-- Problemas de dependencias
-- Dificultad para reproducir errores
-- Tiempo perdido en setup
-
-Este proyecto nace de mi necesidad para proporcionar un entorno **reproducible,
-portable y listo para depuración profesional**, eliminando las barreras técnicas
-y permitiendo a los desarrolladores centrarse en el código.
-
 ## Tecnologías utilizadas
 
 <p align="center">
@@ -108,56 +128,6 @@ y permitiendo a los desarrolladores centrarse en el código.
 - MariaDB (opcional)
 - phpMyAdmin (opcional)
 - VS Code
-- Git / GitHub
-
-## Arquitectura
-
-El proyecto ofrece dos entornos Dev Container:
-
-**php**
-
-- PHP + Apache + Xdebug
-- Contenedor único para desarrollo ligero
-
-**php_BD**
-
-- PHP + Apache + Xdebug
-- MariaDB
-- phpMyAdmin opcional bajo demanda
-
-Todos los servicios están aislados y conectados mediante Docker Network.
-
-## Tipos de entorno
-
-#### php
-
-Entorno base con:
-
-- PHP + Apache
-- Xdebug
-- Debug funcional
-
-#### php_BD
-
-Extiende el anterior añadiendo:
-
-- MariaDB
-- phpMyAdmin (opcional vía .env)
-- Arquitectura multi-contenedor
-
-## Estructura del proyecto
-
-```
-.
-├── .devcontainer/
-│ ├── php/
-│ └── php_BD/
-├── .vscode/
-├── web_test/
-├── images/
-├── README.md
-└── CHANGELOG.md
-```
 
 ## Cambios recientes
 
@@ -243,7 +213,7 @@ Para añadir un servicio más y mostrar que pueden escalarse los devcontainers, 
 
 - phpmyadmin:5.2.2-apache
 
-## Estado del proyecto
+# Estado del proyecto y notas adicionales
 
 La documentación se irá ampliando a medida que se incorporen nuevas funcionalidades
 y se prueben distintos escenarios.
@@ -288,8 +258,6 @@ Se muestran a continuación las plantillas de ejemplo para los archivos de confi
 ### Devcontainer.json
 
 Es el archivo de configuración principal para el Dev Container. Define el entorno de desarrollo, los servicios, las extensiones de VS Code, se pueden definir las variables de entorno y otras personalizaciones. Es fundamental para configurar correctamente el contenedor y asegurar que el entorno de desarrollo sea consistente y reproducible.
-
-> ⚠️ Las plantillas son orientativas. En un entorno real deben eliminarse comentarios y proteger credenciales.
 
 ```json
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
@@ -751,21 +719,3 @@ Solo lo he indicado por si alguien tiene problemas con la IP del cliente y la co
 127.0.0.1 kubernetes.docker.internal
 # End of section
 ```
-
-## Casos de uso reales
-
-- Equipos de desarrollo
-- Entornos educativos
-- Laboratorios DevOps
-- Onboarding de desarrolladores
-- Entornos reproducibles CI/CD
-
-## Conclusión
-
-Este proyecto surge de la necesidad real de disponer de un entorno reproducible durante el aprendizaje como futuro administrador de sistemas.
-
-Desde los primeros meses del ciclo comenzó como una idea orientada a facilitar el estudio, evolucionando progresivamente hasta convertirse en una herramienta funcional, portable y reproducible.
-
-El resultado es un entorno de desarrollo profesional que simplifica la configuración, mejora la comprensión del ecosistema Docker/Dev Containers y refuerza el aprendizaje práctico.
-
-Este proyecto demuestra cómo un administrador de sistemas puede diseñar, automatizar y mantener entornos de desarrollo profesionales, reproducibles y escalables utilizando contenedores.
