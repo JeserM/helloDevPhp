@@ -374,7 +374,7 @@ Es el archivo de configuración principal para el Dev Container. Define el entor
 ```
 
 En el caso de este proyecto y para mis propias necesidades en el caso de la version con base de datos, he optado por tener un archivo env a parte para configurar las variables de entorno de la base de datos, y no incluirlas en el `devcontainer.json` para evitar exponerlas innecesariamente. Sin embargo, si lo deseas, puedes incluirlas directamente en el `devcontainer.json` utilizando la sección `remoteEnv`, lo que puede ser útil para mantener toda la configuración centralizada.
-//pon un icono de advertencia para esta parte, ponolo
+
 alert
 
 > [!WARNING]
